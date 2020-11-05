@@ -30,7 +30,7 @@ class KsqlDB(Script):
 
         Execute('wget --no-check-certificate {0} -O {1}'.format(ksqldb_tar, ksqldbTarTmpPath))
 
-        Execute('tar -xf {0} -C {1} --strip-components=1'.format(ksqldbTarTmpPath, ksqldbHome))
+        Execute('tar -xf {0} -C {1} '.format(ksqldbTarTmpPath, ksqldbHome))
 
         Execute('chmod +x ' + ksqldbHome + '/bin/ksql*')
 
@@ -47,7 +47,7 @@ class KsqlDB(Script):
     def status(self, env):
         try:
             Execute(
-                'export KSQL_COUNT=`ps -ef |grep -v grep |grep "io.confluent.ksql.rest.server.KsqlServerMain etc/ksqldb/ksql-production-server.properties" | wc -l` && `if [ $KSQL_COUNT -ne 0 ];then exit 0;else exit 3;fi `'
+                'export KSQL_COUNT=`ps -ef |grep -v grep |grep "io.confluent.ksql.rest.server.KsqlServerMain etc/ksqldb/ksql-server.properties" | wc -l` && `if [ $KSQL_COUNT -ne 0 ];then exit 0;else exit 3;fi `'
             )
         except ExecutionFailed as ef:
             if ef.code == 3:
